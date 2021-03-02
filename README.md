@@ -17,7 +17,7 @@ Python code for Data Pre-Processing and Analytics
 
 ## AutomateHive.py
 + Run file with 'python AutomateHive.py' to get usage guidance
-+ Must be run in same directory as file going into Hive
++ Must be run in same directory as Hive binary
 + Creates Hive shell command for creating table and ingesting data
 + Must have input csv file with first row as column names
 + Example of what is run in terminal: 'hive -e "use DB1; select * from TABLE1;"'
