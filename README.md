@@ -22,5 +22,9 @@ Python code for Data Pre-Processing and Analytics
 + Must have input csv file with first row as column names
 + Example of what is run in terminal: 'hive -e "use DB1; select * from TABLE1;"'
 
+## HiveQuery.py
++ Run file with 'python3 HiveQuery.py --query 'select * from table1' --dbname 'mydatabase' --output 'results' --scp 'user@192.168.1.1'
++ Extracts hive query results to a file, and copies over scp to another machine
+
 # To Do
 + Output datasets without index column and without column names
