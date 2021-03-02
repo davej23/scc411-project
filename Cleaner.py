@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd 
 import os
 
+# davej23 02/03/21
+
 #
 # Pre-processes log files with e.g. (python Cleaner.py --jobevents jobfile.csv)
 # File must be in same directory
