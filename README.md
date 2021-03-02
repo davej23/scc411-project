@@ -21,3 +21,6 @@ Python code for Data Pre-Processing and Analytics
 + Creates Hive shell command for creating table and ingesting data
 + Must have input csv file with first row as column names
 + Example of what is run in terminal: 'hive -e "use DB1; select * from TABLE1;"'
+
+# To Do
++ Output datasets without index column and without column names
