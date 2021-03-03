@@ -19,17 +19,17 @@ def usage():
 def colNameExtractor(file):
     file = pd.read_csv(file) # read csv with headers, remove index column
     column_names = file.columns # extract column names
-    column_types = [type(file.to_numpy()[1][i]) for i in range(len(column_names))] # find data type for first entry in each column
-
+    column_types = [type(file[n].values[1]) for n in column_names] # find data type for first entry in each column
     for i in range(len(column_types)): # for each column type, change to string, int or double where required
-        if column_types[i] == str and '2011-05-01' not in file[column_names[i]].values[0]: # if string and doesnt have date in, set as str
-            column_types[i] = 'string'
+        if column_types[i] == str: # if string and element doesnt have date, set as str
+            if '2011-05-01' not in file[column_names[i]].values[1]:
+                column_types[i] = 'string'
+            else:
+                column_types[i] = 'timestamp'
         elif column_types[i] in [int, np.int, np.int32, np.int64]:
             column_types[i] = 'int'
         elif column_types[i] in [float, np.float, np.float32, np.float64]:
             column_types[i] = 'double'
-        else:
-            column_types[i] = 'timestamp'
 
     return column_names, column_types
 
@@ -103,3 +103,4 @@ final_command = hive_command + ' ' + '"{}; {} '.format(enter_database,generator(
 # Execute command in shell
 #
 os.system(final_command)
+#print(final_command)
