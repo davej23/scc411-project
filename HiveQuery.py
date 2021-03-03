@@ -47,9 +47,11 @@ final_command = hiveQuery(commandGenerator(hive_query, db_name, file_name))
 return_to_host = 'scp {}:/home/{}/{} .'.format(server_name, server_name.split('@')[0], file_name)
 
 #
-# Execute command on server
+# Execute command on server, after SSH key transfer
 #
+ssh_key_transfer = 'ssh-keygen -t rsa && ssh-copy-id -i ~/.ssh/id_rsa.pub {}'.format(server_name)
 ssh_command = "ssh {} 'cd apache-hive-2.3.8-bin; {}'".format(server_name, final_command)
+os.system(ssh_key_transfer) # SSH key for passwordless login (should be only time you need to use password)
 os.system(ssh_command)
 
 #
