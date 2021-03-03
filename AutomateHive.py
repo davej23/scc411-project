@@ -4,7 +4,7 @@ import pandas as pd
 import sys
 
 #
-# davej23 28/02/21
+# davej23 03/03/21
 #
 
 #
@@ -51,7 +51,7 @@ def generator(datafile, table_name, db_name):
 
 
     table_style = ''.join(features) # join to a string (e.g. (id INT, age INT, gender String))
-    other_params = "ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LINES TERMINATED BY {};".format(repr('\n')) # rest of command string
+    other_params = "ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LINES TERMINATED BY {} TBLPROPERTIES('skip.header.line.count'='1');".format(repr('\n')) # rest of command string
 
     final_command = create_table + table_style + other_params # compose command
 
@@ -92,7 +92,7 @@ enter_database = 'USE {}'.format(db_name)
 # Create final Hive command
 #
 
-final_command = hive_command + ' ' + '"{}; {} '.format(enter_database,generator(datafile, table_name, db_name)) + 'LOAD DATA LOCAL INPATH "{}/{}" INTO TABLE {};'.format(os.getcwd(),datafile,table_name) + '"'
+final_command = hive_command + ' ' + '"{}; {} '.format(enter_database,generator(datafile, table_name, db_name)) + 'LOAD DATA LOCAL INPATH "{}" INTO TABLE {};'.format(datafile,table_name) + '"'
 
 #
 # Print final statement if needed
