@@ -4,7 +4,7 @@ import pandas as pd
 import sys
 
 #
-# davej23 03/03/21
+# davej23 28/02/21
 #
 
 #
@@ -17,17 +17,19 @@ def usage():
 # Generates column names for table
 #
 def colNameExtractor(file):
-    file = pd.read_csv(file) # read csv with headers
+    file = pd.read_csv(file) # read csv with headers, remove index column
     column_names = file.columns # extract column names
     column_types = [type(file.to_numpy()[1][i]) for i in range(len(column_names))] # find data type for first entry in each column
 
     for i in range(len(column_types)): # for each column type, change to string, int or double where required
-        if column_types[i] == str:
+        if column_types[i] == str and '2011-05-01' not in file[column_names[i]].values[0]: # if string and doesnt have date in, set as str
             column_types[i] = 'string'
         elif column_types[i] in [int, np.int, np.int32, np.int64]:
             column_types[i] = 'int'
         elif column_types[i] in [float, np.float, np.float32, np.float64]:
             column_types[i] = 'double'
+        else:
+            column_types[i] = 'timestamp'
 
     return column_names, column_types
 
@@ -49,7 +51,7 @@ def generator(datafile, table_name, db_name):
 
 
     table_style = ''.join(features) # join to a string (e.g. (id INT, age INT, gender String))
-    other_params = "ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LINES TERMINATED BY {} TBLPROPERTIES('skip.header.line.count'='1');".format(repr('\n')) # rest of command string
+    other_params = "ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LINES TERMINATED BY {};".format(repr('\n')) # rest of command string
 
     final_command = create_table + table_style + other_params # compose command
 
@@ -90,7 +92,7 @@ enter_database = 'USE {}'.format(db_name)
 # Create final Hive command
 #
 
-final_command = hive_command + ' ' + '"{}; {} '.format(enter_database,generator(datafile, table_name, db_name)) + "LOAD DATA LOCAL INPATH '{}' INTO TABLE {};".format(datafile,table_name) + '"'
+final_command = hive_command + ' ' + '"{}; {} '.format(enter_database,generator(datafile, table_name, db_name)) + 'LOAD DATA LOCAL INPATH "{}/{}" INTO TABLE {};'.format(os.getcwd(),datafile,table_name) + '"'
 
 #
 # Print final statement if needed
@@ -101,4 +103,3 @@ final_command = hive_command + ' ' + '"{}; {} '.format(enter_database,generator(
 # Execute command in shell
 #
 os.system(final_command)
-
