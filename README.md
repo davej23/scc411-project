@@ -27,5 +27,3 @@ Python code for Data Pre-Processing and Analytics
 + Run file with 'python3 HiveQuery.py --query 'select * from table1' --dbname 'mydatabase' --output 'results' --server 'user@192.168.1.1'
 + Uses ssh to carry out hive query and pushes results to a file, then copies over scp to host machine
 
-# To Do
-+ Output datasets without index column and without column names
