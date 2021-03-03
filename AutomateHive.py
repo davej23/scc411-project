@@ -92,7 +92,7 @@ enter_database = 'USE {}'.format(db_name)
 # Create final Hive command
 #
 
-final_command = hive_command + ' ' + '"{}; {} '.format(enter_database,generator(datafile, table_name, db_name)) + 'LOAD DATA LOCAL INPATH "{}" INTO TABLE {};'.format(datafile,table_name) + '"'
+final_command = hive_command + ' ' + '"{}; {} '.format(enter_database,generator(datafile, table_name, db_name)) + "LOAD DATA LOCAL INPATH '{}' INTO TABLE {};".format(datafile,table_name) + '"'
 
 #
 # Print final statement if needed
