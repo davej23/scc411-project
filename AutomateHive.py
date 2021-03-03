@@ -4,7 +4,7 @@ import pandas as pd
 import sys
 
 #
-# davej23 28/02/21
+# davej23 03/03/21
 #
 
 #
@@ -17,7 +17,7 @@ def usage():
 # Generates column names for table
 #
 def colNameExtractor(file):
-    file = pd.read_csv(file, index_col=0) # read csv with headers, remove index column
+    file = pd.read_csv(file) # read csv with headers
     column_names = file.columns # extract column names
     column_types = [type(file.to_numpy()[1][i]) for i in range(len(column_names))] # find data type for first entry in each column
 
