@@ -49,7 +49,7 @@ def generator(datafile, table_name, db_name):
 
 
     table_style = ''.join(features) # join to a string (e.g. (id INT, age INT, gender String))
-    other_params = "ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LINES TERMINATED BY {} TBLPROPERTIES("skip.header.line.count"="1");".format(repr('\n')) # rest of command string
+    other_params = "ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LINES TERMINATED BY {} TBLPROPERTIES('skip.header.line.count'='1');".format(repr('\n')) # rest of command string
 
     final_command = create_table + table_style + other_params # compose command
 
