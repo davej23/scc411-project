@@ -20,7 +20,8 @@ Python code for Data Pre-Processing and Analytics
 + Must be run in same directory as Hive binary
 + Creates Hive shell command for creating table and ingesting data
 + Must have input csv file with first row as column names
-+ Example of what is run in terminal: 'hive -e "use DB1; select * from TABLE1;"'
++ Must use full system path to input data file e.g. '/home/user/file.txt' NOT '../file.txt'
++ Example of what is run in terminal: 'hive -e "use DB1; select * from TABLE1; load data local inpath '/home/user/myfile.txt' into table TABLE1;"'
 
 ## HiveQuery.py
 + Run file with 'python3 HiveQuery.py --query 'select * from table1' --dbname 'mydatabase' --output 'results' --scp 'user@192.168.1.1'
