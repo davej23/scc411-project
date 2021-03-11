@@ -2,7 +2,7 @@ import os
 import sys
 import getpass
 
-# davej23 03/03/21
+# davej23 11/03/21
 
 #
 # Script to output results of a Hive query in Hadoop cluster to a file
@@ -32,13 +32,13 @@ server_name = sys.argv[8]
 # Function to output correct command and output to a file
 #
 def commandGenerator(query, db, filename):
-    return "use {}; insert overwrite local directory '{}' {};".format(db, filename, query)
+    return "use {}; {};".format(db, query)
 
 #
 # Creates hive command line query
 #
 def hiveQuery(command_input):
-    return 'hive -e "{}"'.format(command_input)
+    return 'hive -e "{}" >> ../{}'.format(command_input, file_name)
 
 #
 # Compose final queries (hive query -> file -> scp)
@@ -47,11 +47,9 @@ final_command = hiveQuery(commandGenerator(hive_query, db_name, file_name))
 return_to_host = 'scp {}:/home/{}/{} .'.format(server_name, server_name.split('@')[0], file_name)
 
 #
-# Execute command on server, after SSH key transfer
+# Execute command on server
 #
-ssh_key_transfer = 'ssh-keygen -t rsa && ssh-copy-id -i ~/.ssh/id_rsa.pub {}'.format(server_name)
 ssh_command = "ssh {} 'cd apache-hive-2.3.8-bin; {}'".format(server_name, final_command)
-os.system(ssh_key_transfer) # SSH key for passwordless login (should be only time you need to use password)
 os.system(ssh_command)
 
 #
@@ -62,5 +60,5 @@ os.system(return_to_host)
 #
 # Debugging (prints commands to screen)
 #
-print(ssh_command)
-print(return_to_host)
+#print(ssh_command)
+#print(return_to_host)
