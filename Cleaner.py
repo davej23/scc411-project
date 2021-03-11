@@ -7,7 +7,8 @@ import os
 # Pre-processes log files with e.g. (python Cleaner.py --jobevents jobfile.csv)
 # File must be in same directory
 #
-
+if len(sys.argv) == 1:
+    print('Arguments (e.g. python Cleaner.py --jobevents jobfile.csv)\n', '--jobevents -> For job event files\n', '--taskevents -> For task event files\n', '--taskusage -> For task usage files\n', '--machineevents -> For machine event files\n', 'Filename after argument | Only supports one at a time\n\n')
 
 if sys.argv[1] == '--jobevents': # IF ARG IS FOR JOBEVENTS, PROCESS JOBEVENTS FILE
     job_events = pd.read_csv(sys.argv[2], header=None)
@@ -117,7 +118,3 @@ elif sys.argv[1] == '--machineevents': # IF ARG IS MACHINEEVENTS PROCESS FOR MAC
     machine_events['time'] = pd.to_datetime(machine_events['time'], unit='us', origin='2011-05-01')
 
     machine_events.to_csv('out-{}'.format(sys.argv[2]))
-
-
-else:
-    print('Arguments (e.g. python Cleaner.py --jobevents jobfile.csv)\n', '--jobevents -> For job event files\n', '--taskevents -> For task event files\n', '--taskusage -> For task usage files\n', '--machineevents -> For machine event files\n', 'Filename after argument | Only supports one at a time')
